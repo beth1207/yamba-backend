@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verify OTP - Yamba</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main>
+    <h1>Verify OTP</h1>
+    <form id="otpForm">
+      <label for="otpInput">Enter OTP</label>
+      <input type="text" id="otpInput" required />
+      <button type="submit">Verify OTP</button>
+    </form>
+  </main>
+  <script>
+    document.getElementById('otpForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const phone = localStorage.getItem('signupPhone');
+      const code = document.getElementById('otpInput').value.trim();
+      const res = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, code })
+      });
+      const data = await res.json();
+      if (data.success || data.message === "Phone verified") {
+        window.location.href = 'create-password.html';
+      } else {
+        alert(data.message || 'Invalid OTP');
+      }
+    });
+  </script>
+</body>
+</html>
