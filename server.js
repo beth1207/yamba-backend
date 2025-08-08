@@ -36,3 +36,16 @@ app.get('/user/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+app.use((req, res, next) => {
+  console.log('Request URL:', req.url);
+  next();
+});
+
+app.use((req, res, next) => {
+  if (req.accepts('html')) {
+    res.status(404).send('Not found');
+  } else {
+    next();
+  }
+});
