@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user'); // We'll create this next
 
-
-
-
-
 // Simple in-memory OTP store (for demo)
 const otpStore = {};
 
