@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: ["https://yamba-platform-wrgflu4ny-ankundabeth07-8205s-projects.vercel.app/"], // allow only your frontend
+  origin: ["https://yamba-platform.vercel.app/"], // allow only your frontend
   credentials: true,
 }));
 
