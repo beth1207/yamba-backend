@@ -2,37 +2,28 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
+// CORS: allow your Vercel frontend
 app.use(cors({
-  origin: ["https://yamba-platform.vercel.app/"], // allow only your frontend
+  origin: ['https://yamba-platform.vercel.app'],
   credentials: true,
 }));
+app.use(express.json());
 
-// Import routes
+// Routes
 const authRoutes = require('./routes/auth');
-app.use('/api', authRoutes);
+app.use('/api/auth', authRoutes);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+// Health
+app.get('/api/health', (_req, res) => res.json({ status: 'Backend is running 🚀' }));
+
+// DB
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// Example API route
-app.get('/api/health', (req, res) => {
-  res.json({ status: "Backend is running 🚀" });
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+// Start
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
